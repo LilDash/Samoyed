@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 
 var Ajax = {
 
@@ -8,29 +9,24 @@ var Ajax = {
 		})
     },
     
-    // post: function(url, data, callback){
-	// 	axios.post(url, data).then(callback).catch(function(error) {
-	// 		console.error(error);
-	// 	})
-	// },
+    postForm: function(url, data, callback){
 
-	post: function(url, data, callback, config) {
-		var cfg = config;
-		if (!cfg) {	
-			cfg = {
-				method: 'post',
-				url: url,
-				data: data,
-			};
-		} else {
-			config.method = 'post';
-			config.url = url;
-			config.data = data;
-		}
-		
-		axios.request(config).then(callback).catch(function(error){
-			console.error(error);	
-		});
+		const headers = {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		};
+		const qsData = qs.stringify(data);
+		axios.post(url, qsData, {headers: headers}).then(callback).catch(function(error) {
+			console.error(error);
+		})
+	},
+
+	postMultiPart: function(url, data, callback){
+		const headers = {
+			'Content-Type': 'multipart/form-data',
+		};
+		axios.post(url, data, {headers: headers}).then(callback).catch(function(error) {
+			console.error(error);
+		})
 	},
 
     delete: function(url, data, callback){

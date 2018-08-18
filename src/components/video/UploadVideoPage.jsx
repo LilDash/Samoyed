@@ -38,7 +38,7 @@ class UploadVideoPageInner extends React.Component {
 	handleUpload() {
 		const self = this;
 		
-		this.props.form.validateFields(null, { force: true }, (err) => {
+		this.props.form.validateFields(null, { force: true }, (err, values) => {
 				if (!err) {
 					// Start upload
 					const uploadData = self.getUploadData();
@@ -47,15 +47,20 @@ class UploadVideoPageInner extends React.Component {
 						self.setState({
 							uploadStatus: 1,
 						});
+						
 						UploadService.upload(self.state.uploadPolicy.host, uploadData, file, (response) => {		
-							console.log(response);
 							if (response.status === 200 || response.status === 203) { // TODO: Remove 203 when callback stuff is done.
-								//response.data;
 								self.setState({
 									uploadStatus: 2,
 								});
-				
-								// TODO: send notification and save file info
+								const notification = {
+									key: uploadData.key, 
+									title: values.videoTitle, 
+									mimeType: file.type, 
+									size: file.size, 
+									metadata: ''
+								}
+								UploadService.sendUploadNotification(notification);
 							} else {
 								self.setState({
 									uploadStatus: 0,
@@ -64,30 +69,8 @@ class UploadVideoPageInner extends React.Component {
 						});
 					}
 				} 
-
-				// const isFileReady = self.state.formData.file != null && self.state.uploadStatus < 2;
-        // self.setState({ isFormDataValid: !err && isFileReady });
       },
     );
-
-		// this.setState({
-		//   uploadStatus: 1,
-		// });
-		// const file = this.state.formData.file;
-		// if (file) {
-		// 	UploadService.upload(this.state.uploadPolicy.host, uploadData, file, (response) => {		
-		// 		console.log(response);
-		// 		if (response.status === 200 || response.status === 203) { // TODO: Remove 203 when callback stuff is done.
-		// 			//response.data;
-		// 			self.setState({
-		// 				uploadStatus: 2,
-		// 			});
-	
-		// 			// TODO: send notification and save file info
-		// 		}
-		// 	});
-		// }
-		
 	}
 
 	getUploadPolicy() {
@@ -116,19 +99,6 @@ class UploadVideoPageInner extends React.Component {
 			signature: uploadPolicy.signature,
 		}
 	}
-
-	// handleChange(e) {
-	// 	const self = this;
-	// 	this.props.form.validateFields(
-	// 		null,
-	// 		{ force: true },
-  //     (err) => {
-	// 			console.log(err);
-	// 			const isFileReady = self.state.formData.file != null && self.state.uploadStatus < 2;
-  //       self.setState({ isFormDataValid: !err && isFileReady });
-  //     },
-  //   );
-	// }
 	
 	renderUploader() {
 		const { formData } = this.state;
@@ -138,14 +108,6 @@ class UploadVideoPageInner extends React.Component {
 			listType: "picture-card",
 			showUploadList: false,
 			className: "video-uploader",
-			onRemove: (file) => {
-				this.setState(({ formData }) => {
-					formData.file = null;
-					return {
-						formData
-					};
-				});
-			},
 			beforeUpload: (file) => {
 				this.setState(({ formData }) => {
 					formData.file = file;
@@ -183,7 +145,7 @@ class UploadVideoPageInner extends React.Component {
 	render() {
 		const { uploadStatus, formData } = this.state;
 		const { getFieldDecorator } = this.props.form;
-		var btnText = uploadStatus === 0 ? 'Start upload' : (uploadStatus === 1 ? 'Uploading' : 'Done');
+		var btnText = '';
 		if (uploadStatus === 0) {
 			btnText = '开始上传';
 		} else if (uploadStatus === 1) {

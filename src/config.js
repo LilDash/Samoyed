@@ -10,5 +10,6 @@ Config.submitEndPoint = Config.serverHost + '/api/admin/post/insert';
 Config.listPostsEndPoint = Config.serverHost + '/api/admin/post/list';
 Config.postEndPoint = Config.serverHost + '/api/admin/post';
 Config.getUploadPolicyEndpoint = Config.serverHost + '/upload/policy';
+Config.uploadNotificationEndpoint = Config.serverHost  + '/upload/notification';
 
 export { Config };

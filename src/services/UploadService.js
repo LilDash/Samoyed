@@ -33,17 +33,32 @@ var UploadService = {
 			method: 'post',
 			url: action,
             headers: {'X-Requested-With': 'XMLHttpRequest'},
-            
 			responseType: 'json',
             data: formData,
 		  }
-        Ajax.post(action, formData, function(response){
+        // Ajax.post(action, formData, function(response){
+        //     return callback(response);
+        // }, config);
+        Ajax.postMultiPart(action, formData, function(response){
             return callback(response);
-        }, config);
+        });
     },
 
-    sendUploadNotification: function(key, title) {
-
+    sendUploadNotification: function(obj) {
+        const data = {
+            storage: "oss",
+            key: obj.key,
+            title: obj.title,
+            mimeType: obj.mimeType,
+            size: obj.size || 0,
+            metadta: obj.metadta || '',
+        };
+        Ajax.postForm(
+            Config.uploadNotificationEndpoint, 
+            data,
+            function(response){
+                console.log("Send upload notification successfully.");
+        });
     },
 
 
