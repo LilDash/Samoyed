@@ -4,7 +4,7 @@ import { Button, Upload, Icon, Form, Input } from 'antd';
 import { UploadService } from '../../services/UploadService';
 import { FileUtil } from '../../services/utils/FileUtil';
 import 'antd/dist/antd.css'; 
-import './styles/upload-video-page.scss';
+import './upload-video-page.scss';
 
 const FormItem = Form.Item;
 

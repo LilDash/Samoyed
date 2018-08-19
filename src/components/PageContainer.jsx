@@ -7,6 +7,7 @@ import { ListPage } from './page/ListPage';
 import UploadVideoPage from './video/UploadVideoPage';
 import PropTypes from 'prop-types';
 import EventManager from '../services/utils/EventManager';
+import { Header } from './common/header/Header';
 
 export class PageContainer extends React.Component {
 
@@ -55,17 +56,18 @@ export class PageContainer extends React.Component {
                 selectedKeys={[this.state.curPage]}
                 mode="horizontal"
             >
-                <Menu.Item key="video_list">
-                    <Icon type="mail" />视频列表
+                <Menu.Item key="stat">
+                    <Icon type="area-chart" />数据统计
                 </Menu.Item>
-                <Menu.Item key="video_edit" disabled>
-                    <Icon type="appstore" />编辑视频
-                </Menu.Item>
-                <Menu.Item key="video_audit">
-                    <Icon type="solution" />审核视频
-                </Menu.Item>
+                <SubMenu title={<span><Icon type="solution" />视频审核</span>}>     
+                    <Menu.Item key="video_audit:pending">待审核视频</Menu.Item>
+                    <Menu.Item key="video_audit:finished">已审核视频</Menu.Item>
+                </SubMenu>
                 <Menu.Item key="video_upload">
                     <Icon type="upload" />上传视频
+                </Menu.Item>
+                <Menu.Item key="credit">
+                    <Icon type="team" />用户行为信用管理
                 </Menu.Item>
             </Menu>
         );
@@ -74,8 +76,8 @@ export class PageContainer extends React.Component {
 	render() {
 
 		return (
-			
 			<div className='page-container'>
+                <Header />
                 <div className='nav'>
                     {this.renderNav()}
                 </div>        
