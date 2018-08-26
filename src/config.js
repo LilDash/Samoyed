@@ -9,7 +9,10 @@ Config.imageUploadUrl = Config.serverHost + '/api/admin/image';
 Config.submitEndPoint = Config.serverHost + '/api/admin/post/insert';
 Config.listPostsEndPoint = Config.serverHost + '/api/admin/post/list';
 Config.postEndPoint = Config.serverHost + '/api/admin/post';
+// Video Upload
 Config.getUploadPolicyEndpoint = Config.serverHost + '/upload/policy';
 Config.uploadNotificationEndpoint = Config.serverHost  + '/upload/notification';
+// Video Review
+Config.getVideoReviewPendingEndpoint = Config.serverHost + '/video/review/pending';
 
 export { Config };

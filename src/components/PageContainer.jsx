@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
-import { EditPage } from './page/EditPage';
-import { ListPage } from './page/ListPage';
-import UploadVideoPage from './video/UploadVideoPage';
+import VideoUploadPage from './video/upload/VideoUploadPage';
+import { VideoReviewPendingPage } from './video/review/VideoReviewPendingPage'
 import PropTypes from 'prop-types';
 import EventManager from '../services/utils/EventManager';
 import { Header } from './common/header/Header';
+import './page-container.scss';
 
 export class PageContainer extends React.Component {
 
@@ -43,9 +43,8 @@ export class PageContainer extends React.Component {
 
     renderPage() {
         switch(this.state.curPage) {
-            case 'video_edit': return <EditPage {...this.state.pageParams} />;
-            case 'video_list': return <ListPage />;
-            case 'video_upload': return <UploadVideoPage />;
+            case 'video:review:pending': return <VideoReviewPendingPage />;
+            case 'video:upload': return <VideoUploadPage />;
         }
     }
 
@@ -59,13 +58,24 @@ export class PageContainer extends React.Component {
                 <Menu.Item key="stat">
                     <Icon type="area-chart" />数据统计
                 </Menu.Item>
-                <SubMenu title={<span><Icon type="solution" />视频审核</span>}>     
-                    <Menu.Item key="video_audit:pending">待审核视频</Menu.Item>
-                    <Menu.Item key="video_audit:finished">已审核视频</Menu.Item>
+                <SubMenu title={<span><Icon type="video-camera" />视频</span>}>  
+                    <MenuItemGroup title="上传">
+                        <Menu.Item key="video:upload">
+                            <Icon type="upload" />上传视频
+                        </Menu.Item>
+                    </MenuItemGroup>
+                    <MenuItemGroup title="审核">
+                        <Menu.Item key="video:review:pending">
+                            <Icon type="solution" />待审核视频
+                        </Menu.Item>
+                        <Menu.Item key="video:review:pass">
+                            <Icon type="smile-o" />已审核视频
+                        </Menu.Item>
+                        <Menu.Item key="video:review:block">
+                            <Icon type="frown-o" />已屏蔽视频
+                        </Menu.Item>
+                    </MenuItemGroup>
                 </SubMenu>
-                <Menu.Item key="video_upload">
-                    <Icon type="upload" />上传视频
-                </Menu.Item>
                 <Menu.Item key="credit">
                     <Icon type="team" />用户行为信用管理
                 </Menu.Item>

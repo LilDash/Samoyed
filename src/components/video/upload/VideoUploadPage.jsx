@@ -1,14 +1,14 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Upload, Icon, Form, Input } from 'antd';
-import { UploadService } from '../../services/UploadService';
-import { FileUtil } from '../../services/utils/FileUtil';
+import { UploadService } from '../../../services/UploadService';
+import { FileUtil } from '../../../services/utils/FileUtil';
 import 'antd/dist/antd.css'; 
-import './upload-video-page.scss';
+import './video-upload-page.scss';
 
 const FormItem = Form.Item;
 
-class UploadVideoPageInner extends React.Component {
+class VideoUploadPageInner extends React.Component {
 
 	constructor(props){
 		super(props);
@@ -155,8 +155,8 @@ class UploadVideoPageInner extends React.Component {
 		}
 
 		return (
-		  <div className='upload-video-page'>
-				<Form className='upload-video-form'>
+		  <div className='video-upload-page'>
+				<Form className='video-upload-form'>
 					<FormItem
 						hasFeedback
 					>
@@ -188,14 +188,14 @@ class UploadVideoPageInner extends React.Component {
 	}
 }
 
-UploadVideoPageInner.propTypes = {
+VideoUploadPageInner.propTypes = {
 	form: PropTypes.object,
 };
 
-UploadVideoPageInner.defaultProps = {
+VideoUploadPageInner.defaultProps = {
 
 };
 
-UploadVideoPage = Form.create({})(UploadVideoPageInner);
+VideoUploadPage = Form.create({})(VideoUploadPageInner);
 
-export default UploadVideoPage
+export default VideoUploadPage
